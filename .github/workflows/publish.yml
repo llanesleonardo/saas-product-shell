@@ -3,13 +3,14 @@
 # Requires repo secret NODE_AUTH_TOKEN = GitHub PAT with:
 #   - read:packages  (install @llanesleonardo/saas-platform)
 #   - write:packages (publish this package)
-# GITHUB_TOKEN alone cannot read another package in the org by default.
+# Must be on setup-node AND install/publish (same secret as create-saas / patterns-docs).
 name: Publish package
 
 on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -26,6 +27,8 @@ jobs:
           node-version: "20"
           registry-url: https://npm.pkg.github.com
           scope: "@llanesleonardo"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - name: System deps (better-sqlite3)
         run: sudo apt-get update && sudo apt-get install -y python3 make g++
@@ -55,6 +58,6 @@ jobs:
           test "$TAG" = "$PKG"
 
       - name: Publish
-        run: npm publish
+        run: npm publish --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
