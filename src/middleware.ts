@@ -11,4 +11,6 @@ export {
 export {
   createShellProxy,
   type ShellProxyOptions,
+  type ShellWorkspaceGateOptions,
+  type ShellFirstAdminGateOptions,
 } from "./proxy";

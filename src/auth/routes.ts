@@ -133,6 +133,18 @@ export function createMeHandler(deps: AuthRouteDeps) {
   };
 }
 
+/** Public: `{ needsSetup: true }` when no users exist (one super admin). */
+export function createSetupStatusHandler(deps: Pick<AuthRouteDeps, "getDb">) {
+  return async (): Promise<Response> => {
+    try {
+      const needsSetup = (await deps.getDb().countUsers()) === 0;
+      return NextResponse.json({ needsSetup });
+    } catch (err) {
+      return jsonError(err);
+    }
+  };
+}
+
 export function createPasswordChangeHandler(deps: AuthRouteDeps) {
   return async (request: Request): Promise<Response> => {
     try {

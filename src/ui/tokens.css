@@ -1,0 +1,40 @@
+/**
+ * Default light/dark CSS variables for AppShellNav.
+ * Import in the product `globals.css`:
+ *   `@import "@llanesleonardo/saas-product-shell/ui/tokens.css";`
+ */
+
+:root,
+html[data-theme="light"] {
+  --background: #f4f4f5;
+  --foreground: #18181b;
+  --surface: #ffffff;
+  --surface-muted: #fafafa;
+  --input: #ffffff;
+  --border: #e4e4e7;
+  --muted: #71717a;
+  --accent: #18181b;
+  --accent-fg: #ffffff;
+  --sidebar: #ffffff;
+  --sidebar-hover: #f4f4f5;
+  --btn: #18181b;
+  --btn-fg: #ffffff;
+  --danger: #dc2626;
+}
+
+html[data-theme="dark"] {
+  --background: #0b0b0b;
+  --foreground: #ededed;
+  --surface: #141414;
+  --surface-muted: #1a1a1a;
+  --input: #0f0f0f;
+  --border: #2a2a2a;
+  --muted: #a0a0a0;
+  --accent: #1c1c1c;
+  --accent-fg: #ededed;
+  --sidebar: #0b0b0b;
+  --sidebar-hover: #161616;
+  --btn: #1c1c1c;
+  --btn-fg: #ededed;
+  --danger: #f87171;
+}

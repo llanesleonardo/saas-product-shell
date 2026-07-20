@@ -1,8 +1,8 @@
 {
   "name": "@llanesleonardo/saas-product-shell",
-  "version": "0.2.2",
+  "version": "0.2.5",
   "private": false,
-  "description": "SaaS product-shell kits (auth, Clerk helpers, tenancy, account, SQLite/Postgres, Stripe billing, email, API keys) on saas-platform",
+  "description": "SaaS product-shell kits (auth, Clerk helpers, tenancy, account, SQLite/Postgres, Stripe billing, email, API keys, AppShell UI) on saas-platform",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "access": "restricted"
@@ -25,11 +25,16 @@
     "./billing/catalog": "./src/billing/catalog.ts",
     "./email": "./src/email/index.ts",
     "./api-keys": "./src/api-keys/index.ts",
+    "./api-keys/ui": "./src/api-keys/ui.tsx",
+    "./ui": "./src/ui/index.ts",
+    "./ui/theme-bootstrap": "./src/ui/theme/theme-bootstrap.ts",
+    "./ui/tokens.css": "./src/ui/tokens.css",
     "./middleware": "./src/middleware.ts",
     "./errors": "./src/errors.ts"
   },
   "files": [
     "src",
+    "docs",
     "README.md"
   ],
   "scripts": {

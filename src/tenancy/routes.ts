@@ -11,7 +11,27 @@ import {
 
 export type TenancyRouteDeps = AuthRouteDeps & {
   getWorkspaceId?: (request: Request) => string | undefined | null;
+  /**
+   * When true (or DEPLOYMENT_MODE=selfhosted), allow many owned workspaces
+   * via createWorkspace. SaaS keeps createOwnedWorkspaceIfAllowed cap.
+   */
+  allowMultipleOwnedWorkspaces?: boolean;
+  /**
+   * Product hook after create (e.g. claim orphan tenant rows on first
+   * selfhosted workspace). Domain-specific — not implemented in shell.
+   */
+  onWorkspaceCreated?: (info: {
+    workspaceId: string;
+    userId: string;
+    isFirstForUser: boolean;
+  }) => void | Promise<void>;
 };
+
+function allowMultiOwned(deps: TenancyRouteDeps): boolean {
+  if (deps.allowMultipleOwnedWorkspaces === true) return true;
+  if (deps.allowMultipleOwnedWorkspaces === false) return false;
+  return (process.env.DEPLOYMENT_MODE ?? "").trim().toLowerCase() === "selfhosted";
+}
 
 export function createListWorkspacesHandler(deps: TenancyRouteDeps) {
   return async (request: Request): Promise<Response> => {
@@ -40,11 +60,24 @@ export function createCreateWorkspaceHandler(deps: TenancyRouteDeps) {
       const existing = await db.getWorkspaceBySlug(slug);
       if (existing) slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
 
-      const result = await db.createOwnedWorkspaceIfAllowed({
+      const before = await db.listWorkspacesForUser(user.id);
+      const input = {
         name,
         slug,
         owner_user_id: user.id,
-      });
+      };
+      const result = allowMultiOwned(deps)
+        ? await db.createWorkspace(input)
+        : await db.createOwnedWorkspaceIfAllowed(input);
+
+      if (deps.onWorkspaceCreated) {
+        await deps.onWorkspaceCreated({
+          workspaceId: result.id,
+          userId: user.id,
+          isFirstForUser: before.length === 0,
+        });
+      }
+
       const workspace = await db.getWorkspaceById(result.id);
       const response = NextResponse.json({ id: result.id, workspace }, { status: 201 });
       applyWorkspaceCookie(response, result.id, workspaceCookieName());

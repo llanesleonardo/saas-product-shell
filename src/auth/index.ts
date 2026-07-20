@@ -19,6 +19,7 @@ export {
 } from "./session";
 export {
   createSetupHandler,
+  createSetupStatusHandler,
   createLoginHandler,
   createLogoutHandler,
   createMeHandler,
