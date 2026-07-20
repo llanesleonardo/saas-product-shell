@@ -32,3 +32,4 @@ export {
   getPastDueGraceDays,
   type ResolveEntitledPlanInput,
 } from "./subscription-policy";
+export { ShellError, jsonError, parseJsonBody } from "../errors";

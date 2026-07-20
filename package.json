@@ -1,6 +1,6 @@
 {
   "name": "@llanesleonardo/saas-product-shell",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": false,
   "description": "SaaS product-shell kits (auth, Clerk helpers, tenancy, account, SQLite/Postgres, Stripe billing, email, API keys) on saas-platform",
   "publishConfig": {
@@ -22,9 +22,11 @@
     "./tenancy": "./src/tenancy/index.ts",
     "./account": "./src/account/index.ts",
     "./billing": "./src/billing/index.ts",
+    "./billing/catalog": "./src/billing/catalog.ts",
     "./email": "./src/email/index.ts",
     "./api-keys": "./src/api-keys/index.ts",
-    "./middleware": "./src/middleware.ts"
+    "./middleware": "./src/middleware.ts",
+    "./errors": "./src/errors.ts"
   },
   "files": [
     "src",
