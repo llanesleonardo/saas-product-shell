@@ -1,0 +1,7 @@
+node_modules/
+dist/
+data/
+*.tgz
+.github-packages-token
+.npmrc
+*.db
